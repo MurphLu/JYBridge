@@ -162,7 +162,7 @@ static NSString* bridgeId = @"_JYBridge";
 
 - (void)webView:(WKWebView *)webView runJavaScriptTextInputPanelWithPrompt:(NSString *)prompt defaultText:(nullable NSString *)defaultText initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(NSString * _Nullable result))completionHandler
 {
-    if([prompt hasPrefix:[NSString stringWithFormat:@"%@", bridgeId]]){
+    if([prompt hasPrefix: bridgeId]){
         NSString* handlerName = [prompt substringFromIndex: bridgeId.length];
         NSDictionary * data = [NSDictionary fromJsonString: defaultText];
         JYMessage *message = [[JYMessage alloc] initWithHandlerName:handlerName data: data callback:nil];

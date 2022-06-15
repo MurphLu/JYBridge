@@ -78,11 +78,11 @@
                 window.webkit.messageHandlers[bridgeName].postMessage(payload)
             }
         };
-        window[bridgeName].registerBridge("test", function(data){
-            console.log(data);
-            return {aaa: "bbb"};
-        })
     })();
+    window[bridgeName].registerBridge("test", function(data){
+        console.log(data);
+        return {aaa: "bbb"};
+    });
     function test(){
         console.log(window[bridgeName].call("test", {"aaa": "bbb"}));
         return {aaa: "bbb"};

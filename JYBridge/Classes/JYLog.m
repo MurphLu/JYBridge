@@ -35,8 +35,6 @@ NSString *errorFooter = @"!!!!!!!!!!!!!!!!!!!! ERROR  END  !!!!!!!!!!!!!!!!!!!!"
         va_start(args, format);
         message = [[NSString alloc] initWithFormat:format arguments:args];
         va_end(args);
-        va_start(args, format);
-        va_end(args);
     }
     [self log:message type:LOG_INFO];
 }
