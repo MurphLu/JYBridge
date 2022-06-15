@@ -1,5 +1,5 @@
 //
-//  JYWebBridgeProxy.h
+//  JYWebBridgeMessageHandler.h
 //  JYBridge
 //
 //  Created by Murph on 2022/6/10.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface JYWebBridgeProxy : NSObject
+@interface JYWebBridgeMessageHandler : NSObject
 @end
 
 NS_ASSUME_NONNULL_END

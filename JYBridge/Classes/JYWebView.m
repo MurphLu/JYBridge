@@ -6,14 +6,14 @@
 //
 
 #import "JYWebView.h"
-#import "JYWebBridgeProxy.h"
+#import "JYWebBridgeMessageHandler.h"
 #import "JYLog.h"
 #import "JYMessage.h"
 #import "NSDictionary+Extension.h"
 
 @interface JYWebView ()<WKScriptMessageHandler, WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate>
 
-@property(nonatomic, strong) JYWebBridgeProxy* proxyObj;
+@property(nonatomic, strong) JYWebBridgeMessageHandler* proxyObj;
 
 @end
 

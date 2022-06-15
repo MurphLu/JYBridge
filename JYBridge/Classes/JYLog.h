@@ -12,9 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JYLog : NSObject
 +(instancetype) shared;
 
-- (void) logInfo: (NSString *) info;
-- (void) logError: (NSString *) error;
-
 - (void) logInfoWithFormat: (NSString *) format, ... NS_FORMAT_FUNCTION(1, 2);
 - (void) logErrorWithFormat:(NSString *) format, ... NS_FORMAT_FUNCTION(1, 2);
 @end

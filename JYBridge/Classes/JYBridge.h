@@ -9,6 +9,6 @@
 #define JYBridge_h
 
 #import "JYWebView.h"
-#import "JYWebBridgeProxy.h"
+#import "JYWebBridgeMessageHandler.h"
 
 #endif /* JYBridge_h */

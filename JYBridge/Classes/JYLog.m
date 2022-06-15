@@ -28,15 +28,6 @@ NSString *errorFooter = @"!!!!!!!!!!!!!!!!!!!! ERROR  END  !!!!!!!!!!!!!!!!!!!!"
     return shareLog;
 }
 
-- (void) logInfo: (NSString *) info {
-    NSLog(@"\n %@ \n %@ \n %@", infoHeader, info, infoFooter);
-}
-
-- (void) logError: (NSString *) error {
-    NSLog(@"\n %@ \n %@ \n %@", errorHeader, error, errorFooter);
-}
-
-
 - (void)logInfoWithFormat:(NSString *)format, ... {
     NSString *message = @"";
     va_list args;

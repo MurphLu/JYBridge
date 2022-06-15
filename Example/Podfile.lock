@@ -37,7 +37,7 @@ SPEC CHECKSUMS:
   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
   "Expecta+Snapshots": dcff217eef506dabd6dfdc7864ea2da321fafbb8
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
-  JYBridge: 574569f1ecba7294801d25d63a23e6540ca74404
+  JYBridge: e0adb8f57e355939203999c54ff9b52da44c4124
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
 
