@@ -1,0 +1,17 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'JYBridge_Example' do
+  pod 'JYBridge', :path => '../'
+  pod 'Masonry'
+
+  target 'JYBridge_Tests' do
+    inherit! :search_paths
+
+    pod 'Specta'
+    pod 'Expecta'
+    pod 'FBSnapshotTestCase'
+    pod 'Expecta+Snapshots'
+  end
+end

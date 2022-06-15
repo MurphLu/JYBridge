@@ -1,0 +1,103 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    const bridgeName = "_JYBridge";
+    (function(){
+        window[bridgeName]={
+            // 存储 bridge，h5 通过 registerBridge 来注册
+            bridgeIdList:{},
+
+            // 存储异步方法回调函数，回调函数调用完即移除
+            callbackIdList:{},
+
+            // 注册 bridge 方法，供原生调用
+            registerBridge:function(handlerName, handler){
+                this.bridgeIdList[handlerName]=handler;
+            },
+
+            // 执行 bridge 方法
+            /*
+            payload:
+            {
+                bridgeName: "",
+                data: {}
+            }
+            */
+            execBridge:function(payload){
+                if(payload && payload.bridgeName && this.bridgeIdList[payload.bridgeName]){
+                    return this.bridgeIdList[payload.bridgeName](payload.data);
+                }
+            },
+
+            // 执行异步方法回调
+            /*
+            payload:
+            {
+                callbackId: "",
+                data: {}
+            }
+            */
+            execCallback:function(payload){
+                if(payload && payload.callbackId && this.callbackIdList[payload.callbackId]){
+                    let callback = this.callbackIdList[payload.callbackId]
+                    delete this.callbackIdList[payload.callbackId]
+                    return callback(payload.data)
+                }
+            },
+
+            // 调用原生同步方法
+            call:function(handlerName, payload){
+                param = '';
+                if(payload) {    
+                    param = JSON.stringify(payload)
+                };
+                return prompt(bridgeName+handlerName, param)
+            },
+
+            // 调用原生异步方法，并将原生回调方法保存到 callbackIdList 中
+            /*
+            {
+                handlerName: "",
+                data: {},
+                callbackId: ""
+            }
+             */
+            callAsync: function(handlerName, payload, callback) {
+                var payload = {handlerName: handlerName, data: payload};
+                if(callback) {
+                    var callbackId = bridgeName+Math.ceil(Math.random()*1000000000);
+                    this.callbackIdList[callbackId] = callback;
+                    payload.callbackId = callbackId;
+                }
+                window.webkit.messageHandlers[bridgeName].postMessage(payload)
+            }
+        };
+        window[bridgeName].registerBridge("test", function(data){
+            console.log(data);
+            return {aaa: "bbb"};
+        })
+    })();
+    function test(){
+        console.log(window[bridgeName].call("test", {"aaa": "bbb"}));
+        return {aaa: "bbb"};
+    }
+
+    function testAsync() {
+        window[bridgeName].callAsync("testAsync", {"aaa": "bbb"}, function(result){
+            console.log(result);
+            return result;
+        });
+    }
+</script>
+<body>
+    <input type="button" value="test" onclick="test()">
+    <input type="button" value="testAsync" onclick="testAsync()">
+
+</body>
+</html>
