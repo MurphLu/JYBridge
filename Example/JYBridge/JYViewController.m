@@ -30,7 +30,7 @@
 
 
 - (void) setupView {
-    self.webView = [[JYWebView alloc] initWithProxyObj:[[JYWebBridgeObj alloc] init]];
+    self.webView = [[JYWebView alloc] initWithMessageHandler:[[JYWebBridgeObj alloc] init]];
     [self.view addSubview: self.webView.webView];
     
     UIView *containerView = [[UIView alloc] initWithFrame: CGRectZero];
