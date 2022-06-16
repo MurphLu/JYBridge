@@ -19,6 +19,7 @@ NSString *infoFooter = @"---------------------INFO  END ---------------------";
 
 NSString *errorHeader = @"!!!!!!!!!!!!!!!!!!!! ERROR START !!!!!!!!!!!!!!!!!!!!";
 NSString *errorFooter = @"!!!!!!!!!!!!!!!!!!!! ERROR  END  !!!!!!!!!!!!!!!!!!!!";
+
 +(instancetype) shared{
     static JYLog *shareLog = nil;
     static dispatch_once_t token;

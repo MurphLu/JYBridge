@@ -6,25 +6,24 @@
 //
 
 #import "JYWebView.h"
-#import "JYWebBridgeMessageHandler.h"
 #import "JYLog.h"
 #import "JYMessage.h"
 #import "NSDictionary+Extension.h"
 
 @interface JYWebView ()<WKScriptMessageHandler, WKUIDelegate, WKNavigationDelegate, UIScrollViewDelegate>
 
-@property(nonatomic, strong) JYWebBridgeMessageHandler* proxyObj;
+@property(nonatomic, strong) JYWebBridgeMessageHandler* handler;
 
 @end
 
 @implementation JYWebView
 static NSString* bridgeId = @"_JYBridge";
 
-- (instancetype)initWithProxyObj:(id) obj
+- (instancetype)initWithMessageHandler:(JYWebBridgeMessageHandler *) handler
 {
     self = [super init];
     if (self) {
-        self.proxyObj = obj;
+        self.handler = handler;
         [self setupConfig];
         [self setupDelegate];
         [self setupWebView];
@@ -71,20 +70,6 @@ static NSString* bridgeId = @"_JYBridge";
     self.webView.opaque = false;
 }
 
-- (void) invokeSelAsync:(SEL) aSelector message:(JYMessage *)message
-{
-    IMP imp = [self.proxyObj methodForSelector:aSelector];
-    NSDictionary * (*func)(id, SEL, NSDictionary *, JYBridgeCallback) = (void *) imp;
-    
-    __weak typeof(self) weakSelf = self;
-    func(self.proxyObj, aSelector, message.data, ^(NSDictionary * result){
-        [JYLog.shared logInfoWithFormat:@"Call Async Handler: %@ \n With Params: %@ \n CallBackId: %@ \n CallBackResult: %@", message.handlerName, message.data, message.callback, result];
-        if(message.callback) {
-            [weakSelf execCallback: message.callback data: result];
-        }
-    });
-}
-
 - (void) execCallback: (NSString*) name data:(NSDictionary*) data
 {
     NSString* dataString = [data toString];
@@ -110,28 +95,19 @@ static NSString* bridgeId = @"_JYBridge";
     }];
 }
 
-- (NSDictionary*) invokeSel:(SEL) aSelector data:(NSDictionary *)data
-{
-    IMP imp = [self.proxyObj methodForSelector:aSelector];
-    NSDictionary * (*func)(id, SEL, NSDictionary *) = (void *) imp;
-    NSDictionary* result = func(self.proxyObj, aSelector, data);
-    return result;
-}
-
 - (NSString *) handleBridgeCallWithMessage:(JYMessage*)message async:(BOOL)async {
     NSDictionary *result = @{};
-    NSString * selName = [NSString stringWithFormat: @"%@:%@", message.handlerName, async ? @"callback:" : @""];
-    SEL sel = NSSelectorFromString(selName);
-    if([self.proxyObj respondsToSelector:sel]) {
-        if(async) {
-            [self invokeSelAsync:sel message:message];
-        } else {
-            result = [self invokeSel:sel data:message.data];
-        }
+    if(async) {
+        __weak typeof(self) weakSelf = self;
+        [self.handler handleAsync:message.handlerName data:message.data callback:^(NSDictionary * result) {
+            [JYLog.shared logInfoWithFormat:@"Call Async Handler: %@ \n With Params: %@ \n CallBackId: %@ \n CallBackResult: %@", message.handlerName, message.data, message.callback, result];
+            if(message.callback) {
+                [weakSelf execCallback: message.callback data: result];
+            }
+        }];
     } else {
-        [JYLog.shared logErrorWithFormat: @"Class: %@ Have No Impl For Selector: %@", [self.proxyObj class], selName];
+        result = [self.handler handle:message.handlerName data:message.data];
     }
-    
     return [result toString];
 }
 

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSDictionary* data;
 @property(nonatomic, copy) NSString* callback;
 
-- (instancetype) initWithDict:(NSDictionary*)dict;
+- (instancetype) initWithDict:(nonnull NSDictionary*)dict;
 - (instancetype) initWithHandlerName: (nonnull NSString *) handler data: (nullable NSDictionary *) data callback: (nullable NSString *) callback;
 @end
 

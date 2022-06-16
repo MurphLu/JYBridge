@@ -7,6 +7,8 @@
 
 #ifndef JYDefines_h
 #define JYDefines_h
+#import <Foundation/Foundation.h>
 
+typedef void (^JYBridgeCallback)(NSDictionary *);
 
 #endif /* JYDefines_h */

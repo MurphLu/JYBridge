@@ -7,16 +7,16 @@
 
 #import <Foundation/Foundation.h>
 #import <WebKit/WebKit.h>
+#import "JYDefines.h"
+#import "JYWebBridgeMessageHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-typedef void (^JYBridgeCallback)(NSDictionary *);
 
 @interface JYWebView : NSObject
 
 @property(strong, nonatomic) WKWebView* webView;
 
-- (instancetype)initWithProxyObj:(id) obj;
+- (instancetype)initWithMessageHandler:(JYWebBridgeMessageHandler *) handler;
 
 - (void) loadUrl:(NSURL *)url;
 - (void) loadFile: (NSString*) path;
