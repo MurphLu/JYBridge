@@ -22,7 +22,7 @@ pod 'JYBridge'
 
 ## Author
 
-10580021, Murph.Lu@homecreditcfc.cn
+Murph.Lu, murphlu@163.com
 
 ## License
 
